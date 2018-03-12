@@ -5,6 +5,7 @@ import java.util
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 
 /**
   * Created by <yuemenglong@126.com> on 2018/3/12.
@@ -12,9 +13,9 @@ import org.springframework.security.authentication.BadCredentialsException
 case class UserIdentity(name: String, password: String)
 
 object AuthService {
+  val manager = new InMemoryUserDetailsManager
+
   def login(name: String, password: String): Unit = {
-    //    val r = s"ROLE_${role}"
-    //    val list: util.List[SimpleGrantedAuthority] = util.Arrays.asList(new SimpleGrantedAuthority(s"ROLE_${role}"))
     val request = new UsernamePasswordAuthenticationToken(name, password)
     val result = request.getName == request.getCredentials match {
       case true => new UsernamePasswordAuthenticationToken(request.getName, request.getCredentials)
